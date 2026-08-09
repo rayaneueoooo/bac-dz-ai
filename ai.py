@@ -29,11 +29,11 @@ SYSTEM = """
 """
 
 def answer(question, branch=None, subject=None, year=None):
-    terms = " ".join(question.split()[:12])
+    terms = " ".join(question.split()[:8])
 
     rows = search_chunks(
         terms,
-        limit=8,
+        limit=4,
         branch=branch,
         subject=subject,
         year=year
@@ -67,7 +67,7 @@ def answer(question, branch=None, subject=None, year=None):
         contents=prompt,
         config={
             "system_instruction": SYSTEM,
-            "max_output_tokens": 1500,
+            "max_output_tokens": 700,
         }
     )
 
