@@ -1,13 +1,8 @@
 
 import os
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
-DB_PATH = BASE_DIR / "bac_dz_ai.sqlite3"
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 AI_MODEL = os.getenv("AI_MODEL", "claude-sonnet-5")
 ADMIN_ID = os.getenv("ADMIN_ID")
 BRANCHES = {
@@ -42,4 +37,6 @@ def validate_config():
         missing.append("GEMINI_API_KEY")
 
     if missing:
-        raise RuntimeError("Missing environment variables: " + ", ".join(missing))
+        raise RuntimeError(
+            "Missing environment variables: " + ", ".join(missing)
+        )
