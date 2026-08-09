@@ -10,7 +10,6 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 AI_MODEL = os.getenv("AI_MODEL", "claude-sonnet-5")
 ADMIN_ID = os.getenv("ADMIN_ID")
-
 BRANCHES = {
     "science": "🔬 علوم تجريبية",
     "math": "📐 رياضيات",
@@ -37,7 +36,7 @@ def validate_config():
     missing = []
     if not TELEGRAM_TOKEN:
         missing.append("TELEGRAM_TOKEN")
-    if not ANTHROPIC_API_KEY:
-        missing.append("ANTHROPIC_API_KEY")
+    if not GEMINI_API_KEY:
+    missing.append("GEMINI_API_KEY")
     if missing:
         raise RuntimeError("Missing environment variables: " + ", ".join(missing))
