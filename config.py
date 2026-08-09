@@ -34,9 +34,12 @@ YEARS = list(range(2008, 2027))
 
 def validate_config():
     missing = []
+
     if not TELEGRAM_TOKEN:
         missing.append("TELEGRAM_TOKEN")
+
     if not GEMINI_API_KEY:
-    missing.append("GEMINI_API_KEY")
+        missing.append("GEMINI_API_KEY")
+
     if missing:
         raise RuntimeError("Missing environment variables: " + ", ".join(missing))
