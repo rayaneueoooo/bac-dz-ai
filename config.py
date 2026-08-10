@@ -1,9 +1,9 @@
 
 import os
 
-
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-AI_MODEL = os.getenv("AI_MODEL", "claude-sonnet-5")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+AI_MODEL = os.getenv("AI_MODEL", "gemini-2.5-flash-lite")
 ADMIN_ID = os.getenv("ADMIN_ID")
 BRANCHES = {
     "science": "🔬 علوم تجريبية",
