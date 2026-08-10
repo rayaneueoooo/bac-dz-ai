@@ -315,16 +315,28 @@ async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mode=context.user_data.get("mode")
     text=update.message.text.strip()
-    if mode=="ai":
-        msg=await update.message.reply_text("🤔 أبحث في قاعدة المعرفة وأجيب...")
+       if mode == "ai":
+        msg = await update.message.reply_text("🤔 أبحث في قاعدة المعرفة وأجيب...")
         try:
-            ans,n=answer(text, context.user_data.get("branch"), context.user_data.get("subject"))
+            ans, n = answer(
+                text,
+                context.user_data.get("branch"),
+                context.user_data.get("subject")
+            )
+
             await msg.delete()
-            await update.message.reply_text("🤖 *BAC DZ AI*\n\n"+ans, parse_mode="Markdown")
-except Exception as e:
-    await msg.edit_text("❌ حدث خطأ:\n" + str(e))
-    return
-    if mode=="search":
+
+            await update.message.reply_text(
+                "🤖 *BAC DZ AI*\n\n" + ans,
+                parse_mode="Markdown"
+            )
+
+        except Exception as e:
+            await msg.edit_text("❌ حدث خطأ:\n" + str(e))
+
+        return
+
+    if mode == "search":
         con=connect()
         rows=con.execute(
             "SELECT id,title,kind,year,path FROM documents WHERE title LIKE ? OR content LIKE ? ORDER BY year DESC LIMIT 20",
