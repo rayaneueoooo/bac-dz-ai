@@ -1,12 +1,22 @@
 
+import os
 import json
 import random
+
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, ContextTypes, filters
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    CallbackQueryHandler,
+    MessageHandler,
+    ContextTypes,
+    filters,
+)
 
 from config import TELEGRAM_TOKEN, BRANCHES, SUBJECTS, YEARS, validate_config
 from db import init_db, connect
 from ai import answer
+
 
 def kb(rows):
     return InlineKeyboardMarkup(rows)
@@ -335,12 +345,32 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def main():
     validate_config()
     init_db()
-    app=Application.builder().token(TELEGRAM_TOKEN).build()
+
+    app = Application.builder().token(TELEGRAM_TOKEN).build()
+
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(callbacks))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_handler))
-    print("✅ BAC DZ AI يعمل")
-    app.run_polling()
+    app.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND, text_handler)
+    )
 
-if __name__=="__main__":
+    print("✅ BAC DZ AI يعمل بنظام Webhook")
+
+    port = int(os.getenv("PORT", "10000"))
+    render_url = os.getenv("RENDER_EXTERNAL_URL")
+
+    if not render_url:
+        raise RuntimeError("RENDER_EXTERNAL_URL غير موجود")
+
+    webhook_path = f"telegram/{TELEGRAM_TOKEN}"
+
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=port,
+        url_path=webhook_path,
+        webhook_url=f"{render_url}/{webhook_path}",
+    )
+
+
+if __name__ == "__main__":
     main()
