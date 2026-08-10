@@ -305,12 +305,73 @@ async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mode=context.user_data.get("mode")
     text=update.message.text.strip()
-    if mode=="ai":
-        msg=await update.message.reply_text("🤔 أبحث في قاعدة المعرفة وأجيب...")
+   async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    mode = context.user_data.get("mode")
+    text = update.message.text.strip()
+
+    if mode == "ai":
+        msg = await update.message.reply_text("🤔 أبحث في قاعدة المعرفة وأجيب...")
+
         try:
-            ans,n=answer(text, context.user_data.get("branch"), context.user_data.get("subject"))
+            ans, n = answer(
+                text,
+                context.user_data.get("branch"),
+                context.user_data.get("subject")
+            )
+
             await msg.delete()
-            await update.message.reply_text("🤖 *BAC DZ AI*\n\n"+ans, parse_mode="Markdown")
+
+            await update.message.reply_text(
+                "🤖 *BAC DZ AI*\n\n" + ans,
+                parse_mode="Markdown"
+            )
+
+        except Exception as e:
+            await msg.edit_text("❌ حدث خطأ:\n" + str(e))
+
+        return
+
+    if mode == "search":
+        con = connect()
+
+        rows = con.execute(
+            """
+            SELECT id, title, kind, year, path
+            FROM documents
+            WHERE title LIKE ? OR content LIKE ?
+            ORDER BY year DESC
+            LIMIT 20
+            """,
+            (f"%{text}%", f"%{text}%")
+        ).fetchall()
+
+        con.close()
+
+        if not rows:
+            await update.message.reply_text(
+                "🔎 لم أجد نتائج. جرّب كلمة أخرى.",
+                reply_markup=main_menu()
+            )
+            return
+
+        lines = ["🔎 *نتائج البحث:*"]
+
+        for r in rows:
+            y = f"{r['year']} - " if r["year"] else ""
+            lines.append(f"- {y}{r['title']} ({r['kind']})")
+
+        await update.message.reply_text(
+            "\n".join(lines),
+            parse_mode="Markdown",
+            reply_markup=main_menu()
+        )
+
+        return
+
+    await update.message.reply_text(
+        "اختر خدمة من /start",
+        reply_markup=main_menu()
+    )
         except Exception as e:
             await msg.edit_text("❌ حدث خطأ:\n"+str(e))
         return
