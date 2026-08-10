@@ -357,18 +357,15 @@ def main():
     print("✅ BAC DZ AI يعمل بنظام Webhook")
 
     port = int(os.getenv("PORT", "10000"))
-    render_url = os.getenv("RENDER_EXTERNAL_URL")
 
-    if not render_url:
-        raise RuntimeError("RENDER_EXTERNAL_URL غير موجود")
-
-    webhook_path = f"telegram/{TELEGRAM_TOKEN}"
+    print(f"✅ Starting webhook on 0.0.0.0:{port}")
 
     app.run_webhook(
         listen="0.0.0.0",
         port=port,
         url_path=webhook_path,
         webhook_url=f"{render_url}/{webhook_path}",
+        drop_pending_updates=True,
     )
 
 
