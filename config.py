@@ -3,8 +3,9 @@ import os
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-AI_MODEL = os.getenv("AI_MODEL", "gemini-2.5-flash-lite")
+AI_MODEL = os.getenv("AI_MODEL", "gemini-2.5-flash")
 ADMIN_ID = os.getenv("ADMIN_ID")
+DB_PATH = os.getenv("DB_PATH", "bac.db")
 BRANCHES = {
     "science": "🔬 علوم تجريبية",
     "math": "📐 رياضيات",
