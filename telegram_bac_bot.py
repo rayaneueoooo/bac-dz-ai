@@ -636,8 +636,7 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # AI
     if mode == "ai":
-        msg = await update.message.reply_text("🤔 انتظر لحظة، أقوم الآن بفحص وقراءة ملفات الكتب والمرجع لتوليد الشرح...")
-
+    msg = await update.message.reply_text("معليش تصبر شوي لعزيز (ة)")
         try:
             # تمرير المادة والشعبة الحالية المحددة لمساعدة دالة القراءة الذكية
             ans, n = answer(
