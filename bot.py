@@ -303,15 +303,11 @@ async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    mode=context.user_data.get("mode")
-    text=update.message.text.strip()
-   async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mode = context.user_data.get("mode")
     text = update.message.text.strip()
 
     if mode == "ai":
         msg = await update.message.reply_text("🤔 أبحث في قاعدة المعرفة وأجيب...")
-
         try:
             ans, n = answer(
                 text,
@@ -330,7 +326,6 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.edit_text("❌ حدث خطأ:\n" + str(e))
 
         return
-
     if mode == "search":
         con = connect()
 
