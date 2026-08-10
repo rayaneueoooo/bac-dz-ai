@@ -660,7 +660,7 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # Search
-    if mode == "search":
+   if mode == "search":
         con = connect()
 
         rows = con.execute(
