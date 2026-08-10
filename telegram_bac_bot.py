@@ -321,9 +321,9 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ans,n=answer(text, context.user_data.get("branch"), context.user_data.get("subject"))
             await msg.delete()
             await update.message.reply_text("🤖 *BAC DZ AI*\n\n"+ans, parse_mode="Markdown")
-        except Exception as e:
-            await msg.edit_text("❌ حدث خطأ:\n"+str(e))
-        return
+except Exception as e:
+    await msg.edit_text("❌ حدث خطأ:\n" + str(e))
+    return
     if mode=="search":
         con=connect()
         rows=con.execute(
